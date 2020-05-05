@@ -7,7 +7,7 @@ A space survival and strategy game where you build manage your faction to surviv
 ## Project Time Frame
 4 weeks, 40 hours worktime
 
-## Prepared by
+## Programmers
 Lara Pichler
 Daniel Dietachmair
 
@@ -23,18 +23,18 @@ Communication: Discord, Github
 Changes: Github / LiveShare
 
 ### What tools will be used
-Netbeans, draw.io, VS Code
+Draw.io, VS Code, IntelliJ IDEA EDU
 
 
 ## List of tasks
-create empire-template that can be runned 
-currency-gain over time
-buildings & national projects
-implement coordinatesystem 
-implement healthcare
-implement enviroment
-implement economy
-implement random diases and enemies
+1. create empire-template that can be executed 
+2. currency-gain over time
+3. buildings & national projects
+4. implement coordinatesystem 
+5. implement healthcare
+6. implement enviroment
+7. implement economy
+8. implement random diases and enemies
 
 
 ## (if possible) 
