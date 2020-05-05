@@ -26,7 +26,7 @@ Changes: Github / LiveShare
 Draw.io, VS Code, IntelliJ IDEA EDU
 
 ## Concept Art
-<img src="/img/concept.jpg" alt="Front Cover" title="Cover" />
+<img src="/img/cover.png" alt="Front Cover" title="Cover" />
 
 ## List of tasks
 1. create empire-template that can be executed
