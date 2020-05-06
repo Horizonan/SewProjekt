@@ -23,7 +23,7 @@ Communication: Discord, Github
 Changes: Github / LiveShare
 
 ### What tools will be used
-Draw.io, VS Code, IntelliJ IDEA EDU
+Draw.io, VS Code, IntelliJ IDEA EDU, libgtx
 
 ## Concept Art
 <img src="/img/cover.png" alt="Front Cover" title="Cover" style="width = 200px;"/>
