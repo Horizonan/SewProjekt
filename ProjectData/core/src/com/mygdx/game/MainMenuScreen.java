@@ -28,7 +28,7 @@ public class MainMenuScreen extends ScreenAdapter {
         int startButtonY = Gdx.graphics.getHeight() / 2 - START_BUTTON_HEIGHT / 2;
         if(Gdx.input.getX() < startButtonX + START_BUTTON_WIDTH && Gdx.input.getX() > startButtonX && Gdx.graphics.getHeight() - Gdx.input.getY() < startButtonY + START_BUTTON_HEIGHT && Gdx.graphics.getHeight() - Gdx.input.getY() > startButtonY){
             if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
-                game.setScreen(new Gamescreen());
+                game.setScreen(new FillForm(game));
             }
         }
         game.batch.draw(startButton, startButtonX, startButtonY, START_BUTTON_WIDTH, START_BUTTON_HEIGHT );
