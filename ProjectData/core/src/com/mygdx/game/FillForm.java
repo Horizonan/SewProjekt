@@ -2,15 +2,28 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeType;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.Input.TextInputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 public class FillForm extends ScreenAdapter {
 
     private Game game;
     private Stage stage;
+    private TextField empireField;
+    private TextField gameCurrency;
+    private TextField leaderField;
+
+
+    public String empireName;
+    public String currencyName;
+    public String leaderName;
+
+
 
     public FillForm(Game g){
         game = g;
@@ -20,11 +33,39 @@ public class FillForm extends ScreenAdapter {
 
         Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
 
-        TextButton btnLogin = new TextButton("Click me", skin);
-        btnLogin.setPosition(300,300);
-        btnLogin.setSize(300,60);
+        final TextButton btnLogin = new TextButton("Submit", skin);
+        btnLogin.setPosition(250,100);
+        btnLogin.setSize(300,70);
+        btnLogin.addListener(new ClickListener(){
+            @Override
+            public void touchUp(InputEvent e, float x, float y, int point, int button){
+                btnLoginClicked();
+            }
+        });
+        empireField = new TextField("Empire-Name", skin);
+        empireField.setPosition(250, 305);
+        empireField.setSize(300, 40);
 
+        leaderField = new TextField("Leader-Name", skin);
+        leaderField.setPosition(250, 250);
+        leaderField.setSize(300, 40);
+
+        gameCurrency = new TextField("Currency-Name", skin);
+        gameCurrency.setPosition(250, 195);
+        gameCurrency.setSize(300, 40);
+
+        stage.addActor(empireField);
+        stage.addActor(leaderField);
+        stage.addActor(gameCurrency);
         stage.addActor(btnLogin);
+    }
+
+    public void btnLoginClicked(){
+        empireName = empireField.getText();
+        leaderName = leaderField.getText();
+        currencyName = gameCurrency.getText();
+
+        System.out.println("Your Empire is called: " + empireName + " Your leader is called: " + leaderName + " and your currency is named: " + currencyName);
     }
 
     @Override
