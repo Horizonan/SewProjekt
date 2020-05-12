@@ -1,7 +1,7 @@
 # High-Space
 
 ## Game-concept
-A space survival and strategy game where you build manage your faction to survive
+A space survival and strategy game where you build and manage your faction to survive
 
 
 ## Project Time Frame
@@ -29,17 +29,17 @@ Draw.io, VS Code, IntelliJ IDEA EDU, libgdx
 <img src="/img/cover.png" alt="Front Cover" title="Cover" style="width = 200px;"/>
 
 ## Buildings and their
-1. Factory
+1. Factorys
 + produce cash
 + needs mines
 2. Mines
 + gives you material
 + needs cash
-3. hospital
+3. Hospitals
 + extra health
-+ prevents desease
++ prevents diseases
 + needs cash
-4. Rescue Center
+4. Rescue Centers
 + helps while natural desaster is occuring
 + needs cash
 5. Flood barriers
@@ -48,10 +48,9 @@ Draw.io, VS Code, IntelliJ IDEA EDU, libgdx
 6. Baracks
 + trains soldiers who defend your empire whilst pirates attack
 + needs cash
-7. Space Port
+7. Space Ports
 + produces spaceships who defend your empire whilst pirates attack
 + needs cash
-
 
 ## Enemies
 + pirates (different strengths)
@@ -63,20 +62,9 @@ there is a 5% chance that you get attacked by enemies every turn
 + natural desaster
 there is a 2.5% chance that natural desasters occur every turn
 
-## List of tasks
-1. create empire-template that can be executed
-2. currency-gain over time
-3. buildings & national projects
-4. implement coordinatesystem
-5. implement healthcare
-6. implement enviroment
-7. implement economy
-8. implement random diases and enemies
-
-
 ## (if possible)
-implement graphics
-implement issues
++ improve graphics
++ implement additional features
 
 ## Worktime
 
