@@ -1,14 +1,19 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.*;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeType;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import sun.jvm.hotspot.utilities.BitMap;
 
 public class FillForm extends ScreenAdapter {
 
@@ -23,10 +28,20 @@ public class FillForm extends ScreenAdapter {
     public String currencyName;
     public String leaderName;
 
+    BitmapFont font;
+    SpriteBatch batch;
+    FreeTypeFontGenerator generator;
+    FreeTypeFontGenerator.FreeTypeFontParameter parameter;
 
 
     public FillForm(Game g){
         game = g;
+        batch = new SpriteBatch();
+        generator = new FreeTypeFontGenerator(Gdx.files.internal("Standart.ttf"));
+        parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = 16;
+        parameter.color = Color.BLACK;
+        font = generator.generateFont(parameter);
 
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
@@ -65,13 +80,16 @@ public class FillForm extends ScreenAdapter {
         leaderName = leaderField.getText();
         currencyName = gameCurrency.getText();
 
-        System.out.println("Your Empire is called: " + empireName + " Your leader is called: " + leaderName + " and your currency is named: " + currencyName);
+        game.setScreen(new Gamescreen(empireName));
     }
 
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(1,1,1,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        batch.begin();
+        font.draw(batch, "High-Space", 250, 425);
+        batch.end();
 
         stage.act(delta);
         stage.draw();
