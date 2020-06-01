@@ -71,11 +71,11 @@ public class Gamescreen extends ScreenAdapter {
             factoryPrice = factoryPrice * 2;
             factories += 1;
             income += 1;
+            cash -= factoryPrice;
             return;
         } else {
             return;
         }
-
     }
 
 

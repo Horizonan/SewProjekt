@@ -23,9 +23,9 @@ Changes: Github / LiveShare
 Draw.io, VS Code, IntelliJ IDEA EDU, libgdx
 
 ## Concept Art
-<img src="/img/cover.png" alt="Front Cover" title="Cover" style="width = 400px;"/>
+<img src="/img/cover.png" alt="Front Cover" title="Cover" style="width = 600px;"/>
 
-## Buildings and their
+## Buildings and their properties
 1. Factorys
 + produces cash
 + needs mines
@@ -57,7 +57,7 @@ there is a 5% chance that you get attacked by enemies every turn
 + diseases
 + storms
 + natural disaster
-there is a 2.5% chance that natural disasters occur every turn
++ there is a 2.5% chance that natural disasters occur every turn
 
 ## (if possible)
 + improve graphics
@@ -66,7 +66,7 @@ there is a 2.5% chance that natural disasters occur every turn
 ## Worktime
 
 | Date          | Time          | Subjekt                                           |
-| ------------- |:-------------:| -------------------------------------------------:|
+| ------------- |:-------------:|:-------------------------------------------------:|
 | 05.05.2020    | 15:30 - 17:30 | Planing & Concept Art                             |
 | 06.05.2020    | 13:00 - 14:30 | Planing & Concept Art                             |
 | 06.05.2020    | 16:00 - 19:00 | Starting to code menu-screen                      |
