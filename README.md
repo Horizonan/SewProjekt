@@ -78,3 +78,8 @@ there is a 5% chance that you get attacked by enemies every turn
 | 16.05.2020    | 21:00 - 22:30 | Button                                            |
 | 18.05.2020    | 20:00 - 20:30 | Button (Bug fix)                                  |
 | 19.05.2020    | 09:00 - 10:00 | Button (Bug fix) / Pixel Art                      |
+| 21.05.2020    | 21:00 - 22:00 | Button (Bug fix) / Pixel Art                      |
+| 28.05.2020    | 20:00 - 22:00 | Button fixed, added more buttons                  |
+| 02.06.2020    | 21:00 - 22:00 | Added some events                                 |
+| 07.06.2020    | 20:00 - 23:30 | Added pirate & 2 other events                     |
+| 09.06.2020    | ????????????? | Bug fix                                           |
