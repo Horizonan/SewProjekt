@@ -190,6 +190,7 @@ public class Gamescreen extends ScreenAdapter{
             factories += 1;
             income += 1;
             cash -= factoryPrice;
+<<<<<<< HEAD
             return;
         } else {
             return;
@@ -237,10 +238,13 @@ public class Gamescreen extends ScreenAdapter{
             barrack += 1;
             dailySoldiers += 10;
             cash -= barrackPrice;
+=======
+>>>>>>> c9d1500b40c8c4bbd81c4bc920312f143a0c7401
             return;
         } else {
             return;
         }
+<<<<<<< HEAD
     }
     public void btnBuySpacePort(){
         if(cash >= portPrice){
@@ -293,6 +297,8 @@ public class Gamescreen extends ScreenAdapter{
             text("You lost " + loosesSold + " Soldiers and " + loosesBuild + " Factorys");
             button("Ok", "Yes");
         }
+=======
+>>>>>>> c9d1500b40c8c4bbd81c4bc920312f143a0c7401
     }
 
 
