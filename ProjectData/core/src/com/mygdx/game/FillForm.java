@@ -80,7 +80,7 @@ public class FillForm extends ScreenAdapter {
         leaderName = leaderField.getText();
         currencyName = gameCurrency.getText();
 
-        game.setScreen(new Gamescreen(empireName));
+        game.setScreen(new Gamescreen(empireName, currencyName));
     }
 
     @Override
