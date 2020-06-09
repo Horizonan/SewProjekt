@@ -82,4 +82,4 @@ there is a 5% chance that you get attacked by enemies every turn
 | 28.05.2020    | 20:00 - 22:00 | Button fixed, added more buttons                  |
 | 02.06.2020    | 21:00 - 22:00 | Added some events                                 |
 | 07.06.2020    | 20:00 - 23:30 | Added pirate & 2 other events                     |
-| 09.06.2020    | 15:25 - 17:15 | Added events                                      |
+| 09.06.2020    | 15:25 - 17:15 | Added storms, diseases & started with investors   |
