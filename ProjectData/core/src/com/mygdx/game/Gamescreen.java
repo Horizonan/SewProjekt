@@ -47,6 +47,8 @@ public class Gamescreen extends ScreenAdapter{
     private Skin skin;
     ExitDialog exitDia;
     PirateDialog pirDia;
+    StormDialog stormDia;
+    DiseaseDialog disDia;
 
 
     //Factories
@@ -84,6 +86,11 @@ public class Gamescreen extends ScreenAdapter{
 
     private int pirateEvent = 0;
     private int pirateEventTicker = 10;
+    private int stormEvent = 0;
+    private int stormEventTicker = 10;
+    private int diseaseEvent = 0;
+    private int diseaseEventTicker = 10;
+
     private int pirateSoldiers = 0;
     private int accounter;
     private int buildAccounter;
@@ -108,6 +115,8 @@ public class Gamescreen extends ScreenAdapter{
 
          exitDia = new ExitDialog("Confirm exit", skin);
          pirDia = new PirateDialog("Pirate Attack", skin);
+         stormDia = new StormDialog("Storm appearing", skin);
+         disDia = new DiseaseDialog("Disease happening", skin);
 
         btnBuyFac = new TextButton("Buy Factory", skin);
         btnBuyFac.setPosition(650,280);
@@ -294,9 +303,38 @@ public class Gamescreen extends ScreenAdapter{
             button("Ok", "Yes");
         }
     }
+    public class StormDialog extends Dialog{
+        public StormDialog(String title, Skin skin, String windowStyleName) {
+            super(title, skin, windowStyleName);
+        }
+        public StormDialog(String title, Skin skin) {
+            super(title, skin);
+        }
+        public StormDialog(String title, WindowStyle windowStyleName) {
+            super(title, windowStyleName);
+        }
+        {
+            text("You lost " + loosesSold + " Soldiers and " + loosesBuild + " Factorys");
+            button("Ok", "Yes");
+        }
+    }
 
 
-
+    public class DiseaseDialog extends Dialog{
+        public DiseaseDialog(String title, Skin skin, String windowStyleName) {
+            super(title, skin, windowStyleName);
+        }
+        public DiseaseDialog(String title, Skin skin) {
+            super(title, skin);
+        }
+        public DiseaseDialog(String title, WindowStyle windowStyleName) {
+            super(title, windowStyleName);
+        }
+        {
+            text("You lost " + loosesSold + " Soldiers and " + loosesBuild + " Factorys");
+            button("Ok", "Yes");
+        }
+    }
 
     @Override
     public void render(float delta) {
@@ -314,6 +352,12 @@ public class Gamescreen extends ScreenAdapter{
         if(pirateEvent == pirateEventTicker) {
             pirDia.show(stage);
         }
+        if(stormEvent == stormEventTicker) {
+            stormDia.show(stage);
+        }
+        if(diseaseEvent == diseaseEventTicker) {
+            disDia.show(stage);
+        }
 
         batch.end();
 
@@ -329,12 +373,26 @@ public class Gamescreen extends ScreenAdapter{
                 pirateSoldiers = 1 + (int)(Math.random() * 600 + accounter);
                 pirateEvent = 0;
             }
+            if(stormEvent == stormEventTicker){
+                accounter += 150;
+                stormEventTicker = 1 + (int)(Math.random() * 100);
+                pirateSoldiers = 1 + (int)(Math.random() * 600 + accounter);
+                stormEvent = 0;
+            }
+            if(diseaseEvent == diseaseEventTicker){
+                accounter += 150;
+                diseaseEventTicker = 1 + (int)(Math.random() * 100);
+                pirateSoldiers = 1 + (int)(Math.random() * 600 + accounter);
+                diseaseEvent = 0;
+            }
 
             soldiers += dailySoldiers;
             cash = cash + income;
             timeHelper = 0;
             ships += dailyShips;
             pirateEvent++;
+            stormEvent++;
+            diseaseEvent++;
 
 
             if(pirateEvent == pirateEventTicker) {
@@ -347,9 +405,32 @@ public class Gamescreen extends ScreenAdapter{
                 }
             }
 
+            if(stormEvent == stormEventTicker) {
+                if(soldiers < pirateSoldiers){
+                    loosesBuild = 1 + (int)(Math.random() * 10 + buildAccounter);
+                    loosesSold = soldiers - soldiers * (20 / 100);
+                    soldiers *= 0.2;
+                } else{
+                    loosesSold = soldiers - pirateSoldiers;
+                }
+            }
+
+            if(diseaseEvent == diseaseEventTicker) {
+                if(soldiers < pirateSoldiers){
+                    loosesBuild = 1 + (int)(Math.random() * 10 + buildAccounter);
+                    loosesSold = soldiers - soldiers * (20 / 100);
+                    soldiers *= 0.2;
+                } else{
+                    loosesSold = soldiers - pirateSoldiers;
+                }
+            }
 
             //Debbuging
             System.out.println(pirateEvent);
+            System.out.println(stormEvent);
+            System.out.println(diseaseEvent);
+            System.out.println("Stormticker: " + stormEventTicker);
+            System.out.println("Diseaseticker: " + diseaseEventTicker);
             System.out.println("ticker: " + pirateEventTicker);
             System.out.println("Soldiers: " + soldiers);
             System.out.println("Soldiers: " + pirateSoldiers);
