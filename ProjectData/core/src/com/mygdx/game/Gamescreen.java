@@ -30,6 +30,7 @@ public class Gamescreen extends ScreenAdapter{
     public static Texture backgroundTexture;
 
     private Stage stage;
+    MyGdxGame game;
 
     private float timeHelper;
     private String empireName;
@@ -86,17 +87,20 @@ public class Gamescreen extends ScreenAdapter{
     private int loosesSold = 0;
 
     private int pirateEvent = 0;
-    private int pirateEventTicker = 10;
+    private int pirateEventTicker = 30;
     private int stormEvent = 0;
     private int stormEventTicker = 10;
     private int diseaseEvent = 0;
-    private int diseaseEventTicker = 10;
+    private int diseaseEventTicker = 15;
     private int InvestorEvent = 0;
-    private int InvestorEventTicker = 10;
+    private int InvestorEventTicker = 5;
 
     private int pirateSoldiers = 0;
     private int accounter;
     private int buildAccounter;
+
+    private int allLostBuildings = 0;
+    private int sickSoldiers = 0;
 
     public Gamescreen(String empire, String currencyN) {
         empireName = empire;
@@ -303,11 +307,12 @@ public class Gamescreen extends ScreenAdapter{
             super(title, windowStyleName);
         }
         {
-            text("You lost " + loosesSold + " Soldiers and " + loosesBuild + " Factorys");
+            text("You lost " + loosesSold + " Soldiers, " + loosesBuild + " Mines and 1 Spaceport");
             button("Ok", "Yes");
         }
     }
     public class StormDialog extends Dialog{
+        // game.setScreen(new GameOverScreen(game));
         public StormDialog(String title, Skin skin, String windowStyleName) {
             super(title, skin, windowStyleName);
         }
@@ -318,7 +323,7 @@ public class Gamescreen extends ScreenAdapter{
             super(title, windowStyleName);
         }
         {
-            text("You lost " + loosesSold + " Soldiers and " + loosesBuild + " Factorys");
+            text("You lost " + loosesSold + " Soldiers, 1 Mine " + loosesBuild + " Rescue Centers");
             button("Ok", "Yes");
         }
     }
@@ -334,10 +339,11 @@ public class Gamescreen extends ScreenAdapter{
             super(title, windowStyleName);
         }
         {
-            text("You lost " + loosesSold + " Soldiers and " + loosesBuild + " Factorys");
+            text("You lost " + loosesSold + " Soldiers, 1 Barrack " + loosesBuild + " Hospitals");
             button("Ok", "Yes");
         }
     }
+
 
     public static class InvestorDialog extends Dialog{
         public InvestorDialog(String title, Skin skin, String windowStyleName) {
@@ -354,6 +360,7 @@ public class Gamescreen extends ScreenAdapter{
             button("Yes", "Yes");
             button("No", "Your choice");
         }
+
         @Override
         protected void result(Object object){
             if(object == "Yes"){
@@ -361,6 +368,22 @@ public class Gamescreen extends ScreenAdapter{
                 // mine += 1; (This doesn't work)
                 //Meanwhile you just exit the game
                 Gdx.app.exit();
+                // setScreen wird hier nicht als falsch angezeigt, geht jedoch nicht
+                // MyGdxGame game wird nach Object object noch gebraucht, kein override
+                //game.setScreen(new GameOverScreen(game));
+
+                int x = (int)(Math.random() * 2 + 1);
+                System.out.println(x);
+                if(x == 1){
+                    // cash = cash * (10/100);
+                }
+                if(x == 2){
+                    // cash = cash / (10/100);
+                }
+                if(x == 3){
+                    // Yeah smh this doesn't work
+                    // factories++;
+                }
             } else{
                 System.out.println(object);
             }
@@ -405,18 +428,29 @@ public class Gamescreen extends ScreenAdapter{
                 pirateEventTicker = 1 + (int)(Math.random() * 100);
                 pirateSoldiers = 1 + (int)(Math.random() * 600 + accounter);
                 pirateEvent = 0;
+                mines = mines - loosesBuild;
+                ports--;
+                allLostBuildings = allLostBuildings + loosesBuild + 1;
+                soldiers = soldiers * (1/200);
+                //game.setScreen(new GameOverScreen(game));
             }
             if(stormEvent == stormEventTicker){
                 accounter += 150;
                 stormEventTicker = 1 + (int)(Math.random() * 100);
                 pirateSoldiers = 1 + (int)(Math.random() * 600 + accounter);
                 stormEvent = 0;
+                rescue = rescue - loosesBuild;
+                mines--;
+                allLostBuildings = allLostBuildings + loosesBuild + 1;
             }
             if(diseaseEvent == diseaseEventTicker){
                 accounter += 150;
                 diseaseEventTicker = 1 + (int)(Math.random() * 100);
                 pirateSoldiers = 1 + (int)(Math.random() * 600 + accounter);
                 diseaseEvent = 0;
+                hospitals = hospitals - loosesBuild;
+                barrack--;
+                allLostBuildings = allLostBuildings + loosesBuild + 1;
             }
 
             if(InvestorEvent == InvestorEventTicker){
