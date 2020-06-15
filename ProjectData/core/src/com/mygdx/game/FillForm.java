@@ -80,7 +80,7 @@ public class FillForm extends ScreenAdapter {
         leaderName = leaderField.getText();
         currencyName = gameCurrency.getText();
 
-        game.setScreen(new Gamescreen(empireName, currencyName));
+        game.setScreen(new Gamescreen(empireName, currencyName, leaderName));
     }
 
     @Override
@@ -88,7 +88,7 @@ public class FillForm extends ScreenAdapter {
         Gdx.gl.glClearColor(1,1,1,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
-        font.draw(batch, "High-Space", 250, 425);
+        font.draw(batch, "High-Space", 350, 400);
         batch.end();
 
         stage.act(delta);

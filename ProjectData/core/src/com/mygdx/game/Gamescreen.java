@@ -1,6 +1,7 @@
 package com.mygdx.game;
 
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
@@ -24,6 +25,7 @@ public class Gamescreen extends ScreenAdapter{
 
     BitmapFont font;
     BitmapFont cashFont;
+    BitmapFont dateFont;
     SpriteBatch batch;
     FreeTypeFontGenerator generator;
     FreeTypeFontGenerator.FreeTypeFontParameter parameter;
@@ -31,10 +33,12 @@ public class Gamescreen extends ScreenAdapter{
 
     private Stage stage;
     MyGdxGame game;
+    Gamescreen gameS;
 
     private float timeHelper;
     private String empireName;
     private String currencyName;
+    private String leaderName;
 
     //Game Variables
     private TextButton btnBuyFac;
@@ -68,6 +72,7 @@ public class Gamescreen extends ScreenAdapter{
     private int rescue = 0;
     private int rescuePrice = 1;
     private double stormSafety = 0.02;
+    private double stormRisk = 0.02;
 
     private int barrack = 0;
     private int barrackPrice = 1;
@@ -89,11 +94,11 @@ public class Gamescreen extends ScreenAdapter{
     private int pirateEvent = 0;
     private int pirateEventTicker = 30;
     private int stormEvent = 0;
-    private int stormEventTicker = 10;
+    private int stormEventTicker = 60;
     private int diseaseEvent = 0;
-    private int diseaseEventTicker = 15;
+    private int diseaseEventTicker = 90;
     private int InvestorEvent = 0;
-    private int InvestorEventTicker = 5;
+    private int InvestorEventTicker = 120;
 
     private int pirateSoldiers = 0;
     private int accounter;
@@ -102,9 +107,13 @@ public class Gamescreen extends ScreenAdapter{
     private int allLostBuildings = 0;
     private int sickSoldiers = 0;
 
-    public Gamescreen(String empire, String currencyN) {
+    private int dateMonth = 1;
+    private int dateYear = 2040;
+
+    public Gamescreen(String empire, String currencyN, String leaderN) {
         empireName = empire;
         currencyName = currencyN;
+        leaderName = leaderN;
         batch = new SpriteBatch();
         generator = new FreeTypeFontGenerator(Gdx.files.internal("Standart.ttf"));
         parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
@@ -112,6 +121,7 @@ public class Gamescreen extends ScreenAdapter{
         parameter.color = Color.WHITE;
         font = generator.generateFont(parameter);
         cashFont = generator.generateFont(parameter);
+        dateFont = generator.generateFont(parameter);
         backgroundTexture = new Texture("images/background.png");
         shapeRenderer = new ShapeRenderer();
         skin = new Skin(Gdx.files.internal("button/uiskin.json"));
@@ -271,7 +281,7 @@ public class Gamescreen extends ScreenAdapter{
         }
     }
 
-    public static class ExitDialog extends Dialog{
+    public class ExitDialog extends Dialog{
           public ExitDialog(String title, Skin skin, String windowStyleName) {
               super(title, skin, windowStyleName);
           }
@@ -282,14 +292,17 @@ public class Gamescreen extends ScreenAdapter{
             super(title, windowStyleName);
         }
         {
-            text("Do you really want to leave?");
+            text("Do you really want to leave " + leaderName + "?");
             button("Yes", "Yes");
             button("No", "Enjoy your stay");
         }
         @Override
         protected void result(Object object){
             if(object == "Yes"){
-                Gdx.app.exit();
+                game.setScreen(new GameOverScreen(gameS));
+                //game.GameOverScreen = new GameOverScreen(game);
+
+                // Gdx.app.exit();
             } else{
                 System.out.println(object);
             }
@@ -326,6 +339,7 @@ public class Gamescreen extends ScreenAdapter{
             text("You lost " + loosesSold + " Soldiers, 1 Mine " + loosesBuild + " Rescue Centers");
             button("Ok", "Yes");
         }
+
     }
 
     public class DiseaseDialog extends Dialog{
@@ -345,7 +359,7 @@ public class Gamescreen extends ScreenAdapter{
     }
 
 
-    public static class InvestorDialog extends Dialog{
+    public class InvestorDialog extends Dialog{
         public InvestorDialog(String title, Skin skin, String windowStyleName) {
             super(title, skin, windowStyleName);
         }
@@ -367,7 +381,7 @@ public class Gamescreen extends ScreenAdapter{
                 // TO-DO: Give player another factory
                 // mine += 1; (This doesn't work)
                 //Meanwhile you just exit the game
-                Gdx.app.exit();
+                // Gdx.app.exit();
                 // setScreen wird hier nicht als falsch angezeigt, geht jedoch nicht
                 // MyGdxGame game wird nach Object object noch gebraucht, kein override
                 //game.setScreen(new GameOverScreen(game));
@@ -375,14 +389,13 @@ public class Gamescreen extends ScreenAdapter{
                 int x = (int)(Math.random() * 2 + 1);
                 System.out.println(x);
                 if(x == 1){
-                    // cash = cash * (10/100);
+                    income = income * (10/100);
                 }
                 if(x == 2){
-                    // cash = cash / (10/100);
+                    income = income / (10/100);
                 }
                 if(x == 3){
-                    // Yeah smh this doesn't work
-                    // factories++;
+                    factories++;
                 }
             } else{
                 System.out.println(object);
@@ -399,6 +412,7 @@ public class Gamescreen extends ScreenAdapter{
         batch.draw(backgroundTexture, 0, 0, 800, 550);
         font.draw(batch, empireName, Gdx.graphics.getWidth() / 2 - 70, 450);
         font.draw(batch, currencyName + ": " + Integer.toString(cash), 600, 450);
+        font.draw(batch, Integer.toString(dateMonth) + " / " + Integer.toString(dateYear), Gdx.graphics.getWidth() / 2 - 340, 450);
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             exitDia.show(stage);
@@ -432,21 +446,38 @@ public class Gamescreen extends ScreenAdapter{
                 ports--;
                 allLostBuildings = allLostBuildings + loosesBuild + 1;
                 soldiers = soldiers * (1/200);
-                //game.setScreen(new GameOverScreen(game));
+                // game.setScreen(new GameOverScreen(game));
             }
             if(stormEvent == stormEventTicker){
                 accounter += 150;
                 stormEventTicker = 1 + (int)(Math.random() * 100);
-                pirateSoldiers = 1 + (int)(Math.random() * 600 + accounter);
+                // pirateSoldiers = 1 + (int)(Math.random() * 600 + accounter);
                 stormEvent = 0;
                 rescue = rescue - loosesBuild;
                 mines--;
                 allLostBuildings = allLostBuildings + loosesBuild + 1;
+                stormRisk *= 1.5;
+
+                if(stormSafety <= stormRisk && stormSafety >= (stormRisk * 1.5)){
+                    factories = factories - 2;
+                    soldiers = soldiers - (1 + (int)(Math.random() * 100));
+                }
+                if(stormSafety <= (stormRisk * 1.51)&& stormSafety >= (stormRisk * 2)){
+                    factories = factories - 5;
+                    soldiers = soldiers - (1 + (int)(Math.random() * 400));
+                }
+                if(stormSafety <= (stormRisk * 2.01)&& stormSafety >= (stormRisk * 5)){
+                    factories = factories - 10;
+                    soldiers = soldiers - (1 + (int)(Math.random() * 1000));
+                }
+                if(stormSafety >= (stormRisk * 5.01)){
+                   // game.setScreen(new GameOverScreen(game));
+                }
             }
             if(diseaseEvent == diseaseEventTicker){
                 accounter += 150;
                 diseaseEventTicker = 1 + (int)(Math.random() * 100);
-                pirateSoldiers = 1 + (int)(Math.random() * 600 + accounter);
+                // pirateSoldiers = 1 + (int)(Math.random() * 600 + accounter);
                 diseaseEvent = 0;
                 hospitals = hospitals - loosesBuild;
                 barrack--;
@@ -456,7 +487,7 @@ public class Gamescreen extends ScreenAdapter{
             if(InvestorEvent == InvestorEventTicker){
                 accounter += 150;
                 InvestorEventTicker = 1 + (int)(Math.random() * 100);
-                pirateSoldiers = 1 + (int)(Math.random() * 600 + accounter);
+                // pirateSoldiers = 1 + (int)(Math.random() * 600 + accounter);
                 InvestorEvent = 0;
             }
             soldiers += dailySoldiers;
@@ -467,6 +498,13 @@ public class Gamescreen extends ScreenAdapter{
             stormEvent++;
             diseaseEvent++;
             InvestorEvent++;
+
+            if(dateMonth < 12) {
+                dateMonth++;
+            }else{
+                dateMonth = 1;
+                dateYear++;
+            }
 
 
             if(pirateEvent == pirateEventTicker) {
