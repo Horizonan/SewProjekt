@@ -15,8 +15,12 @@ public class GameOverScreen extends ScreenAdapter {
     Texture startButton;
     private static final int START_BUTTON_WIDTH = 500;
     private static final int START_BUTTON_HEIGHT = 300;
-    Gamescreen game;
+    MyGdxGame game;
 
+    public GameOverScreen(MyGdxGame game) {
+        this.game = game;
+        this.startButton = new Texture("gameOverScreen.png");
+    }
 
     @Override
     public void render(float delta) {

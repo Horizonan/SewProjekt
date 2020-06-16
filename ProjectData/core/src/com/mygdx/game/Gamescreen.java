@@ -110,7 +110,8 @@ public class Gamescreen extends ScreenAdapter{
     private int dateMonth = 1;
     private int dateYear = 2040;
 
-    public Gamescreen(String empire, String currencyN, String leaderN) {
+    public Gamescreen(String empire, String currencyN, String leaderN, MyGdxGame game) {
+        this.game = game;
         empireName = empire;
         currencyName = currencyN;
         leaderName = leaderN;
@@ -136,7 +137,7 @@ public class Gamescreen extends ScreenAdapter{
          disDia = new DiseaseDialog("Disease happening", skin);
          invDia = new InvestorDialog("Investor wants to build factory", skin);
 
-        btnBuyFac = new TextButton("Buy Factory", skin);
+        btnBuyFac = new TextButton("Buy Factory: " + factories, skin);
         btnBuyFac.setPosition(650,280);
         btnBuyFac.setSize(100,50);
         btnBuyFac.addListener(new InputListener(){
@@ -147,7 +148,7 @@ public class Gamescreen extends ScreenAdapter{
             }
         });
 
-        btnBuyMin = new TextButton("Buy Mine", skin);
+        btnBuyMin = new TextButton("Buy Mine: "+ mines, skin);
         btnBuyMin.setPosition(650,180);
         btnBuyMin.setSize(100,50);
         btnBuyMin.addListener(new InputListener(){
@@ -158,7 +159,7 @@ public class Gamescreen extends ScreenAdapter{
             }
         });
 
-        btnBuySpa = new TextButton("Buy Port", skin);
+        btnBuySpa = new TextButton("Buy Port: " + ports, skin);
         btnBuySpa.setPosition(650,80);
         btnBuySpa.setSize(100,50);
         btnBuySpa.addListener(new InputListener(){
@@ -169,7 +170,7 @@ public class Gamescreen extends ScreenAdapter{
             }
         });
 
-        btnBuyRes = new TextButton("Buy Rescue", skin);
+        btnBuyRes = new TextButton("Buy Rescue: " + rescue, skin);
         btnBuyRes.setPosition(50,180);
         btnBuyRes.setSize(100,50);
         btnBuyRes.addListener(new InputListener(){
@@ -180,7 +181,7 @@ public class Gamescreen extends ScreenAdapter{
             }
         });
 
-        btnBuyHos = new TextButton("Buy Hospital", skin);
+        btnBuyHos = new TextButton("Buy Hospital: " + hospitals, skin);
         btnBuyHos.setPosition(50,280);
         btnBuyHos.setSize(100,50);
         btnBuyHos.addListener(new InputListener(){
@@ -191,7 +192,7 @@ public class Gamescreen extends ScreenAdapter{
             }
         });
 
-        btnBuyBar = new TextButton("Buy Barrack", skin);
+        btnBuyBar = new TextButton("Buy Barrack: "+ barrack , skin);
         btnBuyBar.setPosition(50,80);
         btnBuyBar.setSize(100,50);
         btnBuyBar.addListener(new InputListener(){
@@ -299,9 +300,8 @@ public class Gamescreen extends ScreenAdapter{
         @Override
         protected void result(Object object){
             if(object == "Yes"){
-                game.setScreen(new GameOverScreen(gameS));
+                game.setScreen(new GameOverScreen(game));
                 //game.GameOverScreen = new GameOverScreen(game);
-
                 // Gdx.app.exit();
             } else{
                 System.out.println(object);
@@ -413,6 +413,12 @@ public class Gamescreen extends ScreenAdapter{
         font.draw(batch, empireName, Gdx.graphics.getWidth() / 2 - 70, 450);
         font.draw(batch, currencyName + ": " + Integer.toString(cash), 600, 450);
         font.draw(batch, Integer.toString(dateMonth) + " / " + Integer.toString(dateYear), Gdx.graphics.getWidth() / 2 - 340, 450);
+        font.draw(batch, "Hospitals:  " + Integer.toString(hospitals), Gdx.graphics.getWidth() / 2 - 360, 275);
+        font.draw(batch, "Mines:  " + Integer.toString(mines), Gdx.graphics.getWidth() / 2 + 240, 175);
+        font.draw(batch, "Factories:  " + Integer.toString(factories), Gdx.graphics.getWidth() / 2 + 240, 275);
+        font.draw(batch, "Rescue:  " + Integer.toString(rescue), Gdx.graphics.getWidth() / 2 - 360, 175);
+        font.draw(batch, "Barracks:  " + Integer.toString(barrack), Gdx.graphics.getWidth() / 2 - 360, 75);
+        font.draw(batch, "Ports:  " + Integer.toString(ports), Gdx.graphics.getWidth() / 2 + 240, 75);
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             exitDia.show(stage);
@@ -446,7 +452,10 @@ public class Gamescreen extends ScreenAdapter{
                 ports--;
                 allLostBuildings = allLostBuildings + loosesBuild + 1;
                 soldiers = soldiers * (1/200);
-                // game.setScreen(new GameOverScreen(game));
+                // man stirbt derzeit noch bei jedem Piratenangriff (whyyyy)
+                if(soldiers == 0) {
+                    game.setScreen(new GameOverScreen(game));
+                }
             }
             if(stormEvent == stormEventTicker){
                 accounter += 150;

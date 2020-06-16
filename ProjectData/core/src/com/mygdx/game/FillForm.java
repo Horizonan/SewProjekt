@@ -17,7 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 public class FillForm extends ScreenAdapter {
 
-    private Game game;
+    private MyGdxGame game;
     private Stage stage;
     private TextField empireField;
     private TextField gameCurrency;
@@ -34,7 +34,7 @@ public class FillForm extends ScreenAdapter {
     FreeTypeFontGenerator.FreeTypeFontParameter parameter;
 
 
-    public FillForm(Game g){
+    public FillForm(MyGdxGame g){
         game = g;
         batch = new SpriteBatch();
         generator = new FreeTypeFontGenerator(Gdx.files.internal("Standart.ttf"));
@@ -80,7 +80,7 @@ public class FillForm extends ScreenAdapter {
         leaderName = leaderField.getText();
         currencyName = gameCurrency.getText();
 
-        game.setScreen(new Gamescreen(empireName, currencyName, leaderName));
+        game.setScreen(new Gamescreen(empireName, currencyName, leaderName, this.game));
     }
 
     @Override
