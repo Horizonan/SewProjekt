@@ -64,6 +64,9 @@ public class Gamescreen extends ScreenAdapter{
     private int hospitalPrice = 1;
     private int hospitals = 0;
     private double plagueSafety = 0.02;
+    private double plagueStrength = 0.02;
+    private int losSoldierSickAccounter;
+
 
     private int mines = 0;
     private int minePrice = 1;
@@ -88,11 +91,19 @@ public class Gamescreen extends ScreenAdapter{
     private int income = 1;
 
     //Event
+    private int eventPick;
+
     private int loosesBuild = 0;
     private int loosesSold = 0;
+    private int losAccounter = 0;
+
+    private int allLostPorts = 0;
+    private int allLostFactorys = 0;                
+    private int looseFac;
+    private int loosePort;
 
     private int pirateEvent = 0;
-    private int pirateEventTicker = 30;
+    private int pirateEventTicker = 10;
     private int stormEvent = 0;
     private int stormEventTicker = 60;
     private int diseaseEvent = 0;
@@ -135,9 +146,9 @@ public class Gamescreen extends ScreenAdapter{
          pirDia = new PirateDialog("Pirate Attack", skin);
          stormDia = new StormDialog("Storm appearing", skin);
          disDia = new DiseaseDialog("Disease happening", skin);
-         invDia = new InvestorDialog("Investor wants to build factory", skin);
+         invDia = new InvestorDialog("A Investor wants to build a factory", skin);
 
-        btnBuyFac = new TextButton("Buy Factory: " + factories, skin);
+        btnBuyFac = new TextButton("Buy Factory", skin);
         btnBuyFac.setPosition(650,280);
         btnBuyFac.setSize(100,50);
         btnBuyFac.addListener(new InputListener(){
@@ -148,7 +159,7 @@ public class Gamescreen extends ScreenAdapter{
             }
         });
 
-        btnBuyMin = new TextButton("Buy Mine: "+ mines, skin);
+        btnBuyMin = new TextButton("Buy Mine", skin);
         btnBuyMin.setPosition(650,180);
         btnBuyMin.setSize(100,50);
         btnBuyMin.addListener(new InputListener(){
@@ -159,7 +170,7 @@ public class Gamescreen extends ScreenAdapter{
             }
         });
 
-        btnBuySpa = new TextButton("Buy Port: " + ports, skin);
+        btnBuySpa = new TextButton("Buy Port", skin);
         btnBuySpa.setPosition(650,80);
         btnBuySpa.setSize(100,50);
         btnBuySpa.addListener(new InputListener(){
@@ -170,7 +181,7 @@ public class Gamescreen extends ScreenAdapter{
             }
         });
 
-        btnBuyRes = new TextButton("Buy Rescue: " + rescue, skin);
+        btnBuyRes = new TextButton("Buy Rescue", skin);
         btnBuyRes.setPosition(50,180);
         btnBuyRes.setSize(100,50);
         btnBuyRes.addListener(new InputListener(){
@@ -181,7 +192,7 @@ public class Gamescreen extends ScreenAdapter{
             }
         });
 
-        btnBuyHos = new TextButton("Buy Hospital: " + hospitals, skin);
+        btnBuyHos = new TextButton("Buy Hospital", skin);
         btnBuyHos.setPosition(50,280);
         btnBuyHos.setSize(100,50);
         btnBuyHos.addListener(new InputListener(){
@@ -192,7 +203,7 @@ public class Gamescreen extends ScreenAdapter{
             }
         });
 
-        btnBuyBar = new TextButton("Buy Barrack: "+ barrack , skin);
+        btnBuyBar = new TextButton("Buy Barrack", skin);
         btnBuyBar.setPosition(50,80);
         btnBuyBar.setSize(100,50);
         btnBuyBar.addListener(new InputListener(){
@@ -353,7 +364,7 @@ public class Gamescreen extends ScreenAdapter{
             super(title, windowStyleName);
         }
         {
-            text("You lost " + loosesSold + " Soldiers, 1 Barrack " + loosesBuild + " Hospitals");
+            text("You lost " + loosesSold + " Soldiers and " + looseFac +" are plundered. ");
             button("Ok", "Yes");
         }
     }
@@ -378,27 +389,20 @@ public class Gamescreen extends ScreenAdapter{
         @Override
         protected void result(Object object){
             if(object == "Yes"){
-                // TO-DO: Give player another factory
-                // mine += 1; (This doesn't work)
-                //Meanwhile you just exit the game
-                // Gdx.app.exit();
-                // setScreen wird hier nicht als falsch angezeigt, geht jedoch nicht
-                // MyGdxGame game wird nach Object object noch gebraucht, kein override
-                //game.setScreen(new GameOverScreen(game));
 
                 int x = (int)(Math.random() * 2 + 1);
                 System.out.println(x);
-                if(x == 1){
-                    income = income * (10/100);
-                }
-                if(x == 2){
-                    income = income / (10/100);
-                }
-                if(x == 3){
-                    factories++;
-                }
-            } else{
-                System.out.println(object);
+                // if(x == 1){
+                // income = income * 2;
+                // }
+                //if(x == 2){
+                //income = income / (10/100);
+                //}
+                //if(x == 3){
+                 //   factories++;
+                //}
+                // else{
+                //   System.out.println(object);
             }
         }
     }
@@ -422,6 +426,7 @@ public class Gamescreen extends ScreenAdapter{
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             exitDia.show(stage);
+            System.out.println("ES GEEEEEEHHHTT");
         }
         if(pirateEvent == pirateEventTicker) {
             pirDia.show(stage);
@@ -443,24 +448,55 @@ public class Gamescreen extends ScreenAdapter{
 
         timeHelper += Gdx.graphics.getDeltaTime();
         if(timeHelper > 1){
-            if(pirateEvent == pirateEventTicker){
+            eventPick = 1 + (int)(Math.random() * 5);
+
+            soldiers += dailySoldiers;
+            cash = cash + income;
+            timeHelper = 0;
+            ships += dailyShips;
+            pirateEvent++;
+            stormEvent++;
+            diseaseEvent++;
+            InvestorEvent++;
+
+
+            if(dateMonth < 12) {
+                dateMonth++;
+            }else{
+                dateMonth = 1;
+                dateYear++;
+            }
+
+
+            if (pirateEvent == pirateEventTicker) {
                 accounter += 150;
-                pirateEventTicker = 1 + (int)(Math.random() * 100);
-                pirateSoldiers = 1 + (int)(Math.random() * 600 + accounter);
+                pirateEventTicker = 1 + (int) (Math.random() * 100);
+                pirateSoldiers = 1 + (int) (Math.random() * 100 + accounter);
                 pirateEvent = 0;
-                mines = mines - loosesBuild;
-                ports--;
+
                 allLostBuildings = allLostBuildings + loosesBuild + 1;
-                soldiers = soldiers * (1/200);
-                // man stirbt derzeit noch bei jedem Piratenangriff (whyyyy)
-                if(soldiers == 0) {
+                if (soldiers + accounter < pirateSoldiers) {
+                    losAccounter += (1 + (int) (Math.random() * 2));
+                    looseFac = (1 + (int) (Math.random() * 2 + losAccounter));
+                    loosePort = (1 + (int) (Math.random() * 2 + losAccounter));
+
+                    factories -= looseFac;
+                    ports -= loosePort;
+
+                    allLostFactorys += looseFac;
+                    allLostPorts += loosePort;
+
+                }
+                if (soldiers < -pirateSoldiers) {
                     game.setScreen(new GameOverScreen(game));
+                } else {
+                    soldiers -= pirateSoldiers;
                 }
             }
+
             if(stormEvent == stormEventTicker){
                 accounter += 150;
                 stormEventTicker = 1 + (int)(Math.random() * 100);
-                // pirateSoldiers = 1 + (int)(Math.random() * 600 + accounter);
                 stormEvent = 0;
                 rescue = rescue - loosesBuild;
                 mines--;
@@ -480,93 +516,38 @@ public class Gamescreen extends ScreenAdapter{
                     soldiers = soldiers - (1 + (int)(Math.random() * 1000));
                 }
                 if(stormSafety >= (stormRisk * 5.01)){
-                   // game.setScreen(new GameOverScreen(game));
+                    game.setScreen(new GameOverScreen(game));
                 }
             }
+
             if(diseaseEvent == diseaseEventTicker){
-                accounter += 150;
                 diseaseEventTicker = 1 + (int)(Math.random() * 100);
-                // pirateSoldiers = 1 + (int)(Math.random() * 600 + accounter);
                 diseaseEvent = 0;
-                hospitals = hospitals - loosesBuild;
-                barrack--;
-                allLostBuildings = allLostBuildings + loosesBuild + 1;
-            }
+                plagueStrength *= 2;
 
-            if(InvestorEvent == InvestorEventTicker){
-                accounter += 150;
-                InvestorEventTicker = 1 + (int)(Math.random() * 100);
-                // pirateSoldiers = 1 + (int)(Math.random() * 600 + accounter);
-                InvestorEvent = 0;
-            }
-            soldiers += dailySoldiers;
-            cash = cash + income;
-            timeHelper = 0;
-            ships += dailyShips;
-            pirateEvent++;
-            stormEvent++;
-            diseaseEvent++;
-            InvestorEvent++;
-
-            if(dateMonth < 12) {
-                dateMonth++;
-            }else{
-                dateMonth = 1;
-                dateYear++;
-            }
-
-
-            if(pirateEvent == pirateEventTicker) {
-                if(soldiers < pirateSoldiers){
-                    loosesBuild = 1 + (int)(Math.random() * 10 + buildAccounter);
-                    loosesSold = soldiers - soldiers * (20 / 100);
-                    soldiers *= 0.2;
-                } else{
-                    loosesSold = soldiers - pirateSoldiers;
-                }
-            }
-
-            if(stormEvent == stormEventTicker) {
-                if(soldiers < pirateSoldiers){
-                    loosesBuild = 1 + (int)(Math.random() * 10 + buildAccounter);
-                    loosesSold = soldiers - soldiers * (20 / 100);
-                    soldiers *= 0.2;
-                } else{
-                    loosesSold = soldiers - pirateSoldiers;
-                }
-            }
-
-            if(diseaseEvent == diseaseEventTicker) {
-                if(soldiers < pirateSoldiers){
-                    loosesBuild = 1 + (int)(Math.random() * 10 + buildAccounter);
-                    loosesSold = soldiers - soldiers * (20 / 100);
-                    soldiers *= 0.2;
-                } else{
-                    loosesSold = soldiers - pirateSoldiers;
-                }
-            }
-
-            if(InvestorEvent == InvestorEventTicker) {
-                if(soldiers < pirateSoldiers){
-                    loosesBuild = 1 + (int)(Math.random() * 10 + buildAccounter);
-                    loosesSold = soldiers - soldiers * (20 / 100);
-                    soldiers *= 0.2;
-                } else{
-                    loosesSold = soldiers - pirateSoldiers;
+                if(plagueSafety < plagueStrength) {
+                    looseFac = (1 + (int) (Math.random() * 2 + losAccounter));
+                    losAccounter += (1 + (int) (Math.random() * 2));
+                    losSoldierSickAccounter = (1 + (int) (Math.random() * 200));
+                    loosesSold = (1 + (int) (Math.random() * 2 + losSoldierSickAccounter));
+                    sickSoldiers += loosesSold;
+                    soldiers -= loosesSold;
+                }else{
+                    return;
                 }
             }
 
             //Debbuging
-            System.out.println(pirateEvent);
-            System.out.println(stormEvent);
-            System.out.println(diseaseEvent);
-            System.out.println(InvestorEvent);
             System.out.println("Stormticker: " + stormEventTicker);
             System.out.println("Diseaseticker: " + diseaseEventTicker);
             System.out.println("Investorticker: "+ InvestorEventTicker);
             System.out.println("ticker: " + pirateEventTicker);
+            System.out.println(pirateEvent);
+            System.out.println(stormEvent);
+            System.out.println(diseaseEvent);
+            System.out.println(InvestorEvent);
             System.out.println("Soldiers: " + soldiers);
-            System.out.println("Soldiers: " + pirateSoldiers);
+            System.out.println("Pirate Soldiers: " + pirateSoldiers);
         }
     }
 
